@@ -16,7 +16,7 @@ export const ClientGrid = ({ clients = [], handlerConfirmDelete, onShowDeleteMod
             <tbody className="bg-white divide-y divide-gray-300">
                 {clients.map(client => (
                     <ClientDetail 
-                        key={client.id}
+                        key={client._id}
                         clients={client} 
                         onDeleteClient={handlerConfirmDelete} 
                         onShowDeleteModal={onShowDeleteModal} 

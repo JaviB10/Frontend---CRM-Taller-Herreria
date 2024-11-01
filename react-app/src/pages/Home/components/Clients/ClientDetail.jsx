@@ -49,7 +49,7 @@ export const ClientDetail = ({ clients = {}, onShowDeleteModal, onShowUpdateModa
                     onClick={handleMenuToggle}
                     className="text-blue-600 focus:outline-none no-underline"
                 >
-                    {clients.id}
+                    {clients._id}
                 </button>
                 {showMenu && (
                     <div ref={menuRef} className="absolute left-auto mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-50">
@@ -75,7 +75,7 @@ export const ClientDetail = ({ clients = {}, onShowDeleteModal, onShowUpdateModa
                 )}
             </td>
             <td className="border-r border-gray-300 px-4 py-2 text-center">{clients.name}</td>
-            <td className="border-r border-gray-300 px-4 py-2 text-center">{clients.lastname}</td>
+            <td className="border-r border-gray-300 px-4 py-2 text-center">{clients.lastName}</td>
             <td className="border-r border-gray-300 px-4 py-2 text-center">{clients.address}</td>
             <td className="px-4 py-2 text-center">{clients.phone}</td>
         </tr>
