@@ -18,8 +18,8 @@ export const ClientProvider = ({ children }) => {
 
     const allClients = async () => {
         try {
-            const response = await findAll(token);
-            setClients(response.data);
+            const response = await findAll();
+            setClients(response.data.data);
         } catch (error) {
             console.log(error);
         }
