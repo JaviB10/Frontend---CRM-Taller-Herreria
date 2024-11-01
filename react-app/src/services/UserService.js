@@ -1,13 +1,8 @@
-import axios from "axios";
+import axios from './axiosConfig.js'
 
 export const findAll = async () => {
-    const token = getToken();
     try {
-        const response = await axios.get('http://localhost:8080/api/clients/', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        const response = await axios.get('clients/');
         return response;
     } catch (error) {
         console.log(error);
@@ -16,20 +11,14 @@ export const findAll = async () => {
 }
 
 export const createUser = async ({name, lastname, address, phone}) => {
-    const token = getToken();
     try {
-        const response = await axios.post('http://localhost:8080/api/clients', {
+        const response = await axios.post('/clients', {
             name: name,
-            lastname: lastname,
+            lastName: lastname,
             address: address,
             phone: phone
 
-        }, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
         });
-        console.log(response);
         return response;
     } catch (error) {
         console.log(error);
@@ -38,13 +27,8 @@ export const createUser = async ({name, lastname, address, phone}) => {
 }
 
 export const findClient = async (id) => {
-    const token = getToken();
     try {
-        const response = await axios.get(`http://localhost:8080/api/clients/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        const response = await axios.get(`/clients/${id}`);
         return response;
     } catch (error) {
         console.log(error);
@@ -53,20 +37,14 @@ export const findClient = async (id) => {
 }
 
 export const updateUser = async ({id, name, lastname, address, phone}) => {
-    const token = getToken();
     try {
-        const response = await axios.put(`http://localhost:8080/api/clients/${id}`, {
+        const response = await axios.put(`/clients/${id}`, {
             name: name,
-            lastname: lastname,
+            lastName: lastname,
             address: address,
             phone: phone
 
-        }, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
         });
-        console.log(response);
         return response;
     } catch (error) {
         console.log(error);
@@ -75,33 +53,30 @@ export const updateUser = async ({id, name, lastname, address, phone}) => {
 }
 
 export const login = async (credentials) => {
-    console.log("esto llega al service", credentials);
     try {
-        const response = await axios.post('http://localhost:8080/login', {
-            username: credentials.username,
+        const response = await axios.post('http://localhost:8080/api/sessions/login', {
+            email: credentials.username,
             password: credentials.password
-        })
+        }, {
+            withCredentials: true // Esto permite el envío de cookies con la solicitud
+        });
+        
+        
         if(response.status == 200) {
-            const { token, username, roles } = response.data
+            const { token, email, role } = response.data.payload
             localStorage.setItem('token', token);
-            localStorage.setItem('roles', JSON.stringify(roles))
-            return { token, username, roles }
+            localStorage.setItem('role', role)
+            return { token, username: email, role }
         }
     } catch (error) {
         console.log(error);
     }
-    return { token: null, user: null };
+    return { token: null, user: null, roles: [] };
 }
 
 export const removeClient = async (id) => {
-    const token = getToken();
-
     try {
-        const response = await axios.delete(`http://localhost:8080/api/clients/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        const response = await axios.delete(`/clients/${id}`);
         return response; 
     } catch (error) {
         console.error(error);
